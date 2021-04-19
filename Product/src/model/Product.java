@@ -59,7 +59,7 @@ public class Product
 			return output;
 	}
 	
-//read part
+	//read part
 	public String readProduct()
 	{
 			String output = "";
@@ -112,9 +112,9 @@ public class Product
 			return output;
 		}
 
-//update part
-public String updateProduct(String ID, String name, String category, String desc, String price)
-{
+	//update part
+	public String updateProduct(String ID, String name, String category, String desc, String price)
+	{
 		String output = "";
 		try
 		{
@@ -146,7 +146,40 @@ public String updateProduct(String ID, String name, String category, String desc
 				System.err.println(e.getMessage());
 		}
 		return output;
-}
-}
+	}
+	
+	//delete part
+	public String deleteProduct(String productID)
+	{
+		String output = "";
+		try
+		{
+				Connection con = connect();
+				if (con == null)
+				{return "Error while connecting to the database for deleting."; }
+				
+				// create a prepared statement
+				String query = "delete from product where productID=?";
+				
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				
+				// binding values
+				preparedStmt.setInt(1, Integer.parseInt(productID));
+
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				
+				output = "Deleted successfully";
+		}
+		catch (Exception e)
+		{
+				output = "Error while deleting the product.";
+				System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
+	}
 
 	
