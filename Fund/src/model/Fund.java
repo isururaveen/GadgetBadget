@@ -22,8 +22,9 @@ public class Fund {
 					
 				return con; 
 		}
+		
 
-		//Insert part
+		//Creating insert part
 		public String insertFund(String fRecipient, String comName, String timeDuration, String purpose, String donaAmount) 
 		{
 				String output = "";
@@ -64,7 +65,7 @@ public class Fund {
 		}
 		
 		
-		//Read part
+		//Creating read part
 		public String readFunds() 
 		{
 				String output = "";
@@ -117,4 +118,48 @@ public class Fund {
 				
 				return output;
 		}
+		
+		
+		//Creating update Part
+		public String updateFund(String FID, String fRecipient, String comName, String timeDuration, String purpose, String donaAmount)
+		{
+			String output = "";
+			
+			try 
+			{
+					Connection con = connect();
+			
+					if (con == null) 
+					{return "Error while connecting to the database for updating."; }
+			
+					// create a prepared statement 
+					String query = "UPDATE funds SET FundRecipient=?,CompanyName=?,TimeDuration=?,Purpose=?,DonationAmount=? WHERE FundID =?";
+			
+					PreparedStatement preparedStmt = con.prepareStatement(query);
+			
+					// binding values 
+					preparedStmt.setString(1, fRecipient); 
+					preparedStmt.setString(2, comName); 
+					preparedStmt.setString(3, timeDuration); 
+					preparedStmt.setString(4, purpose);
+					preparedStmt.setDouble(5, Double.parseDouble(donaAmount));
+					preparedStmt.setInt(6, Integer.parseInt(FID));
+			
+					// execute the statement 
+					preparedStmt.execute(); 
+					con.close();
+					
+					output = "Fund details, updated successfully!";
+			} 
+			catch (Exception e) 
+			{
+					output = "Error while updating the fund."; 
+					System.err.println(e.getMessage());
+			} 
+			
+			return output;
+			
+		}	
+		
+		
 }

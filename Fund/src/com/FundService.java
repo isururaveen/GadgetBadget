@@ -19,7 +19,7 @@ public class FundService {
 	
 	Fund fundobj = new Fund();
 
-	//Implement the Read Funds Operation
+	//Creating the Read Funds Operation
 	@GET 
 	@Path("/") 
 	@Produces(MediaType.TEXT_HTML) 
@@ -28,7 +28,7 @@ public class FundService {
 		return fundobj.readFunds();
 	}
 
-	//Implement the Insert Funds Operation
+	//Creating the Insert Funds Operation
 	@POST 
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
@@ -40,6 +40,29 @@ public class FundService {
 							 @FormParam("DonationAmount") String DonationAmount)
 	{
 		String output = fundobj.insertFund(FundRecipient, CompanyName, TimeDuration, Purpose, DonationAmount); 
+		
+		return output;
+	}
+	
+	//Creating the Update Funds Operation
+	@PUT 
+	@Path("/") 
+	@Consumes(MediaType.APPLICATION_JSON) 
+	@Produces(MediaType.TEXT_PLAIN) 
+	public String updateFund(String fundData) 
+	{
+		//Convert the input string to a JSON object 
+		JsonObject fundObje = new JsonParser().parse(fundData).getAsJsonObject();
+		
+		//Read the values from the JSON object 
+		String FundID = fundObje.get("FundID").getAsString(); 
+		String FundRecipient = fundObje.get("FundRecipient").getAsString(); 
+		String CompanyName = fundObje.get("CompanyName").getAsString(); 
+		String TimeDuration = fundObje.get("TimeDuration").getAsString(); 
+		String Purpose = fundObje.get("Purpose").getAsString();
+		String DonationAmount = fundObje.get("DonationAmount").getAsString();
+		
+		String output = fundobj.updateFund(FundID, FundRecipient, CompanyName, TimeDuration, Purpose, DonationAmount); 
 		
 		return output;
 	}
