@@ -31,4 +31,13 @@ public class BuyerService {
 	public String readBuyers() {
 		return "Welcome to Buyer API";
 	}
+
+	//Get All Buyers - Retreive All Buyer Information
+	@GET
+	@Path("/all")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getAllBuyers()
+	{
+		return buyer.getAllBuyers();
+	}
 }
