@@ -22,4 +22,13 @@ import org.jsoup.nodes.Document;
 @Path("/Buyers")
 public class BuyerService {
 	
+    Buyer buyer = new Buyer();
+	
+	//Default Buyers API
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String readBuyers() {
+		return "Welcome to Buyer API";
+	}
 }
