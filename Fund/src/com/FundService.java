@@ -19,7 +19,7 @@ public class FundService {
 	
 	Fund fundobj = new Fund();
 
-	//Creating the Read Funds Operation
+	//<-----Creating the Read Funds Operation----->
 	@GET 
 	@Path("/") 
 	@Produces(MediaType.TEXT_HTML) 
@@ -28,7 +28,7 @@ public class FundService {
 		return fundobj.readFunds();
 	}
 
-	//Creating the Insert Funds Operation
+	//<------Creating the Insert Funds Operation------>
 	@POST 
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
@@ -44,7 +44,7 @@ public class FundService {
 		return output;
 	}
 	
-	//Creating the Update Funds Operation
+	//<-------Creating the Update Funds Operation------->
 	@PUT 
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_JSON) 
@@ -63,6 +63,23 @@ public class FundService {
 		String DonationAmount = fundObje.get("DonationAmount").getAsString();
 		
 		String output = fundobj.updateFund(FundID, FundRecipient, CompanyName, TimeDuration, Purpose, DonationAmount); 
+		
+		return output;
+	}
+	
+	//<-------Creating the delete Funds Operation------->
+	@DELETE 
+	@Path("/") 
+	@Consumes(MediaType.APPLICATION_XML) 
+	@Produces(MediaType.TEXT_PLAIN) public 
+	String deleteFund(String fundData) 
+	{
+		//Convert the input string to an XML document 
+		Document doc = Jsoup.parse(fundData, "", Parser.xmlParser());
+		
+		//Read the value from the element <FundID> 
+		String FundID = doc.select("FundID").text();
+		String output = fundobj.deleteFund(FundID); 
 		
 		return output;
 	}

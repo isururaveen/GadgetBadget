@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Fund {
 
-		//method to connect to the DB 
+		//<------method to connect to the DB-------> 
 		private Connection connect() 
 		{
 				Connection con = null;
@@ -24,7 +24,7 @@ public class Fund {
 		}
 		
 
-		//Creating insert part
+		//<-----Creating insert part----->
 		public String insertFund(String fRecipient, String comName, String timeDuration, String purpose, String donaAmount) 
 		{
 				String output = "";
@@ -65,7 +65,7 @@ public class Fund {
 		}
 		
 		
-		//Creating read part
+		//<-------Creating read part--------->
 		public String readFunds() 
 		{
 				String output = "";
@@ -107,7 +107,7 @@ public class Fund {
 						 
 						 con.close();
 						 
-						 // Complete the html table 
+						 //Complete the html table 
 						 output += "</table>";
 				} 
 				catch (Exception e) 
@@ -120,7 +120,7 @@ public class Fund {
 		}
 		
 		
-		//Creating update Part
+		//<-------Creating update Part-------->
 		public String updateFund(String FID, String fRecipient, String comName, String timeDuration, String purpose, String donaAmount)
 		{
 			String output = "";
@@ -162,4 +162,38 @@ public class Fund {
 		}	
 		
 		
+		//<-------Creating delete Part-------->
+		public String deleteFund(String FundID)
+		{
+			String output = "";
+			
+				try {
+					Connection con = connect();
+					
+			
+					if (con == null) 
+					{return "Error while connecting to the database for deleting."; }
+					
+					// create a prepared statement 
+					String query = "delete from funds where FundID=?"; 
+					PreparedStatement preparedStmt = con.prepareStatement(query);
+					
+					// binding values 
+					preparedStmt.setInt(1, Integer.parseInt(FundID));
+			
+					// execute the statement 
+					preparedStmt.execute(); 
+					con.close();
+					
+					output = "Deleted successfully!";
+				} 
+				catch (Exception e) 
+				{
+					output = "Error while deleting the fund."; 
+					System.err.println(e.getMessage());
+				} 
+				
+				return output;
+		}
+			
 }
