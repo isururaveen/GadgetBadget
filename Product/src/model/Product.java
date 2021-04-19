@@ -111,10 +111,42 @@ public class Product
 			
 			return output;
 		}
+
+//update part
+public String updateProduct(String ID, String name, String category, String desc, String price)
+{
+		String output = "";
+		try
+		{
+				Connection con = connect();
+				if (con == null)
+					
+				{return "Error while connecting to the database for updating."; }
+				// create a prepared statement
+				String query = "UPDATE product SET productName=?,procategory=?,proDesc=?,proPrice=? WHERE productID=?";
+				
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				
+				// binding values
+				preparedStmt.setString(1, name);
+				preparedStmt.setString(2, category );
+				preparedStmt.setString(3, desc);
+				preparedStmt.setDouble(4, Double.parseDouble(price));
+				preparedStmt.setInt(5, Integer.parseInt(ID));
+				
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				
+				output = "Updated successfully";
+		}
+		catch (Exception e)
+		{
+				output = "Error while updating the product.";
+				System.err.println(e.getMessage());
+		}
+		return output;
 }
-
-
-
-
+}
 
 	

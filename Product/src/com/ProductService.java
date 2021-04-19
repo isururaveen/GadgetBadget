@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
 @Path("/Products") 
 public class ProductService {
 
-	//implement the read product
+	//create the read product
 	Product productObj = new Product(); 
 	@GET
 	@Path("/") 
@@ -24,7 +24,7 @@ public class ProductService {
 	 return  productObj.readProduct(); 
 	 } 
 	
-	//implememnt the insert product
+	//create the insert product
 @POST
 @Path("/") 
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
@@ -35,6 +35,28 @@ public String insertProduct(@FormParam("productName") String productName,
  @FormParam("proPrice") String proPrice) 
 { 
  String output = productObj.insertProduct(productName, proCategory, proDesc, proPrice); 
+return output; 
+}
+//add method
+
+@PUT
+@Path("/") 
+@Consumes(MediaType.APPLICATION_JSON) 
+@Produces(MediaType.TEXT_PLAIN) 
+public String updateProduct(String productData) 
+{ 
+	
+//Convert the input string to a JSON object 
+JsonObject productObject = new JsonParser().parse(productData).getAsJsonObject(); 
+
+//Read the values from the JSON object
+String productID = productObject.get("productID").getAsString(); 
+String productName = productObject.get("productName").getAsString(); 
+String proCategory = productObject.get("proCategory").getAsString(); 
+String proDesc = productObject.get("proDesc").getAsString(); 
+String proPrice = productObject.get("proPrice").getAsString(); 
+
+String output = productObj.updateProduct(productID, productName, proCategory, proDesc, proPrice); 
 return output; 
 }
 
