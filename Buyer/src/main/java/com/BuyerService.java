@@ -40,4 +40,17 @@ public class BuyerService {
 	{
 		return buyer.getAllBuyers();
 	}
+
+	//Get Single Buyer Details
+	@GET
+	@Path("/id")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getBuyerByID(String id)
+	{
+		JsonObject buyerObject = new JsonParser().parse(id).getAsJsonObject();
+		String buyerID = buyerObject.get("buyerID").getAsString();
+		System.out.println(buyerID);
+		return buyer.getBuyer(buyerID);
+	}
 }
