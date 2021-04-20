@@ -131,6 +131,7 @@ public class Buyer {
 				String sqlQuery = "SELECT * FROM buyers WHERE buyerID="+val;
 				Statement statement = con.createStatement();
 				
+				
 				ResultSet rs = statement.executeQuery(sqlQuery);
 				
 				if(rs.next()) 
@@ -165,4 +166,63 @@ public class Buyer {
 			
 			return output;
 		}
+
+		//Insert Buyer (Registration)---------------------------------------------------------------------------------
+		public String insertBuyer(String firstName, String lastName, String address, String email, String phoneNo, String userName, String password) 
+		{
+			
+			String output ="";
+			
+			try {
+				Connection con = connect();
+				if(con == null)
+				{
+					return "Unable to Connect Database for Inserting Data";
+				}
+				
+				//Create a Prepared Statement
+				String sqlQuery = "INSERT INTO buyers(firstName, lastName, address, email, phoneNo, userName, password)VALUES (?,?,?,?,?,?,?)";
+				
+				System.out.println(sqlQuery);
+				
+				//Create a Prepared Statement to Retrieve all UserNames
+				String sqlQuery2 = new String("SELECT * FROM buyers WHERE userName=?");
+			
+				PreparedStatement preparedStatement = con.prepareStatement(sqlQuery2);
+				preparedStatement.setString(1, userName);
+				
+				ResultSet rs = preparedStatement.executeQuery();
+				
+				if(rs.next())
+				{
+					return "Sorry there is already a registered user with this Username";
+				}
+				else 
+				{
+					
+					PreparedStatement stmt = con.prepareStatement(sqlQuery);
+					
+					//Binding Values
+					stmt.setString(1,firstName );
+					stmt.setString(2,lastName );
+					stmt.setString(3, address);
+					stmt.setString(4, email);
+					stmt.setString(5, phoneNo);
+					stmt.setString(6, userName);
+					stmt.setString(7, password);
+					
+					//Execute the statement
+					stmt.execute();
+					con.close();
+					
+					output= "Congratulations register success!!";
+				}
+				
+			}catch(SQLException ex) {
+				ex.printStackTrace();
+				output= "Registering Failed! Try Again...";
+				System.err.println("Connection Value" + ex);
+			}
+			return output;
+		}	
 }
