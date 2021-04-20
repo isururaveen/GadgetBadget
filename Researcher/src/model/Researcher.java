@@ -123,6 +123,49 @@ public class Researcher {
 				
 				return output;
 		}
+		
+		//<-----Creating update part----->
+		public String updateResearcher(String RID, String fName, String lName, String address, String email, String phone, String uName, String pWord)
+		{
+			String output = "";
+			
+			try 
+			{
+					Connection con = connect();
+			
+					if (con == null) 
+					{return "Error while connecting to the database for updating."; }
+			
+					// create a prepared statement 
+					String query = "UPDATE researchers SET FirstName=?,LastName=?,Address=?,Email=?,Phone=?,UserName=?,Password=? WHERE ResearcherID=?";
+			
+					PreparedStatement preparedStmt = con.prepareStatement(query);
+			
+					// binding values 
+					preparedStmt.setString(1, fName); 
+					preparedStmt.setString(2, lName); 
+					preparedStmt.setString(3, address); 
+					preparedStmt.setString(4, email);
+					preparedStmt.setString(5, phone);
+					preparedStmt.setString(6, uName);
+					preparedStmt.setString(7, pWord);
+					preparedStmt.setInt(8, Integer.parseInt(RID));
+			
+					// execute the statement 
+					preparedStmt.execute(); 
+					con.close();
+					
+					output = "Researcher details updated successfully!";
+			} 
+			catch (Exception e) 
+			{
+					output = "Error while updating the researcher."; 
+					System.err.println(e.getMessage());
+			} 
+			
+			return output;
+			
+		}
 
 			
 }	
