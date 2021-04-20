@@ -224,5 +224,48 @@ public class Buyer {
 				System.err.println("Connection Value" + ex);
 			}
 			return output;
-		}	
+		}
+
+		//Update Buyer----------------------------------------------------------------------------------------------------
+		public String UpdateBuyer(int buyerID, String firstName, String lastName, String address, String email, String phoneNo, String userName, String password)
+		{
+			String output ="";
+			
+			try {
+				Connection con = connect();
+				
+				if(con == null)
+				{
+					return "Unable to Connect Database for Update Data";
+				}
+				
+				//Create a Prepared Statement
+				String sqlQuery = "UPDATE `buyers` SET `firstName`=?,`lastName`=?,`address`=?,`email`=?,`phoneNo`=?,`userName`=?,`password`=? WHERE buyerID =?";
+			
+				PreparedStatement preparedStatement = con.prepareStatement(sqlQuery);
+				
+				//Binding Values
+				preparedStatement.setString(1, firstName);
+				preparedStatement.setString(2, lastName);
+				preparedStatement.setString(3, address);
+				preparedStatement.setString(4, email);
+				preparedStatement.setString(5, phoneNo);
+				preparedStatement.setString(6, userName);
+				preparedStatement.setString(7, password);
+				preparedStatement.setInt(8, buyerID);
+				
+				//Execute the statement
+				preparedStatement.execute();
+				con.close();
+				
+				output= "Buyer Successfully Updated"; 
+			}
+			
+			catch(Exception ex) 
+			{
+				output = "Update Failed! : " + buyerID+"";
+				ex.printStackTrace();
+			}	
+			return output;
+		}		
 }
