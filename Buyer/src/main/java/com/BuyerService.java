@@ -94,4 +94,26 @@ public class BuyerService {
 			}
 		}
 	}
+
+	//Update Buyer Details-----------------------------------------
+	@PUT
+	@Path("update")
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public String updateBuyer(String buyerData)
+	{
+		JsonObject buyerObject = new JsonParser().parse(buyerData).getAsJsonObject();
+		
+		int buyerID = buyerObject.get("buyerID").getAsInt();
+		String firstName = buyerObject.get("firstName").getAsString();
+		String lastName = buyerObject.get("lastName").getAsString();
+		String address = buyerObject.get("address").getAsString();
+		String email = buyerObject.get("email").getAsString();
+		String phoneNo = buyerObject.get("phoneNo").getAsString();
+		String userName = buyerObject.get("userName").getAsString();
+		String password = buyerObject.get("password").getAsString();
+		
+		String obj = buyer.UpdateBuyer(buyerID, firstName, lastName, address, email, phoneNo, userName, password);
+		return obj;
+	}
 }
