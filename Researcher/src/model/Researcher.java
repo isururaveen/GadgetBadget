@@ -167,5 +167,40 @@ public class Researcher {
 			
 		}
 
+		
+		
+		//<-----Creating delete part----->
+		public String deleteResearcher(String ResearcherID)
+		{
+			String output = "";
+			
+				try {
+					Connection con = connect();
+					
+			
+					if (con == null) 
+					{return "Error while connecting to the database for deleting."; }
+					
+					// create a prepared statement 
+					String query = "delete from researchers where ResearcherID=?"; 
+					PreparedStatement preparedStmt = con.prepareStatement(query);
+					
+					// binding values 
+					preparedStmt.setInt(1, Integer.parseInt(ResearcherID));
+			
+					// execute the statement 
+					preparedStmt.execute(); 
+					con.close();
+					
+					output = "Researcher deleted successfully!";
+				} 
+				catch (Exception e) 
+				{
+					output = "Error while deleting the researcher."; 
+					System.err.println(e.getMessage());
+				} 
+				
+				return output;
+		}
 			
 }	

@@ -70,6 +70,25 @@ public class ResearcherService {
 		
 		return output;
 	}
+	
+	//<-----Creating the delete researcher Operation----->
+	@DELETE 
+	@Path("/") 
+	@Consumes(MediaType.APPLICATION_XML) 
+	@Produces(MediaType.TEXT_PLAIN) public 
+	String deleteResearcher(String researcherData) 
+	{
+		//Convert the input string to an XML document 
+		Document doc = Jsoup.parse(researcherData, "", Parser.xmlParser());
+		
+		//Read the value from the element <ResearcherID> 
+		String ResearcherID = doc.select("ResearcherID").text();
+		String output = researcherObj.deleteResearcher(ResearcherID); 
+		
+		return output;
+	}
+	
+	
 }
 
 
