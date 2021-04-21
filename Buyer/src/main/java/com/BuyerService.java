@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document;
 @Path("/Buyers")
 public class BuyerService {
 	
-    Buyer buyer = new Buyer();
+	Buyer buyer = new Buyer();
 	
 	//Default Buyers API
 	@GET
@@ -31,8 +31,9 @@ public class BuyerService {
 	public String readBuyers() {
 		return "Welcome to Buyer API";
 	}
-
-	//Get All Buyers - Retreive All Buyer Information
+	
+	
+	//Get All Buyers
 	@GET
 	@Path("/all")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -40,7 +41,7 @@ public class BuyerService {
 	{
 		return buyer.getAllBuyers();
 	}
-
+	
 	//Get Single Buyer Details
 	@GET
 	@Path("/id")
@@ -94,7 +95,7 @@ public class BuyerService {
 			}
 		}
 	}
-
+	
 	//Update Buyer Details-----------------------------------------
 	@PUT
 	@Path("update")
@@ -116,7 +117,7 @@ public class BuyerService {
 		String obj = buyer.UpdateBuyer(buyerID, firstName, lastName, address, email, phoneNo, userName, password);
 		return obj;
 	}
-
+	
 	//Delete Buyer----------------------------------------------------
 	@DELETE
 	@Path("/delete")

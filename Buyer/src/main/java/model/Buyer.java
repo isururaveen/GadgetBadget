@@ -2,6 +2,9 @@ package model;
 
 import java.sql.*;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  * @author IsuruRaveen
@@ -31,7 +34,8 @@ public class Buyer {
 			
 			return con;
 		}
-	
+		
+		
 		//Read Buyer Information------------------------------------------------------------------------
 		public String getAllBuyers() {
 			
@@ -41,7 +45,6 @@ public class Buyer {
 				
 				Connection con = connect();
 				
-				//Check DB Conenction
 				if(con == null)
 				{
 					return "Unable to Connect Database for Retreive Data";
@@ -99,8 +102,8 @@ public class Buyer {
 			
 			return output;
 		}
-		
-		//Retrieve Single Buyer Information------------------------------------------------------------------------
+
+		////Retrieve Single Buyer Information-------------------------------------------------
 		public String getBuyer(String buyerID) 
 		{
 			
@@ -130,8 +133,6 @@ public class Buyer {
 				
 				String sqlQuery = "SELECT * FROM buyers WHERE buyerID="+val;
 				Statement statement = con.createStatement();
-				
-				
 				ResultSet rs = statement.executeQuery(sqlQuery);
 				
 				if(rs.next()) 
@@ -166,8 +167,9 @@ public class Buyer {
 			
 			return output;
 		}
+		
 
-		//Insert Buyer (Registration)---------------------------------------------------------------------------------
+		//Insert Buyer(Registration)---------------------------------------------------------------------------------
 		public String insertBuyer(String firstName, String lastName, String address, String email, String phoneNo, String userName, String password) 
 		{
 			
@@ -225,7 +227,7 @@ public class Buyer {
 			}
 			return output;
 		}
-
+		
 		//Update Buyer----------------------------------------------------------------------------------------------------
 		public String UpdateBuyer(int buyerID, String firstName, String lastName, String address, String email, String phoneNo, String userName, String password)
 		{
@@ -267,32 +269,32 @@ public class Buyer {
 				ex.printStackTrace();
 			}	
 			return output;
-		}	
-
-		//Delete Buyer details-----------------------------------------------------------------------------------
+		}
+		
+		//Delete Buyer-----------------------------------------------------------------------------------
 		public String deleteBuyer(String buyerID)
 		{
 			
 			String output ="";
 			
-		try
-		{
-			Connection con = connect();
-			if (con == null)
+			try
 			{
-				 return "Unable to Conenct to the database for Deleting."; 
-			}
+				 Connection con = connect();
+				 if (con == null)
+				 {
+					 return "Unable to Conenct to the database for Deleting."; 
+				 }
 			
-			//Create a Prepared Statement
-			String sqlQuery = "DELETE FROM `buyers` WHERE buyerID=?";
+				//Create a Prepared Statement
+				String sqlQuery = "DELETE FROM `buyers` WHERE buyerID=?";
 				
-			PreparedStatement preparedStatement = con.prepareStatement(sqlQuery);
-			preparedStatement.setInt(1, Integer.parseInt(buyerID));
+				PreparedStatement preparedStatement = con.prepareStatement(sqlQuery);
+				preparedStatement.setInt(1, Integer.parseInt(buyerID));
 				
-			preparedStatement.executeUpdate();
-			con.close();
+				preparedStatement.executeUpdate();
+				con.close();
 				
-			output ="Delete Sucessfully";
+				output ="Delete Sucessfully";
 			}
 			catch(Exception ex)
 			{
@@ -302,5 +304,5 @@ public class Buyer {
 			
 			return output;
 		}
-	
+			
 }
