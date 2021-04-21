@@ -16,5 +16,21 @@ import javax.ws.rs.core.MediaType;
 //For Login (Buyers/ Researchers/ Funding Bodies)  
 public class LoginService {
 	
-	
+	Login log = new Login();
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String loginGadgetBadget(@FormParam("userName") String userName, @FormParam("password") String password)
+	{
+		if(userName != null || password != null)
+		{
+			
+			System.out.println("Login success!");
+			return log.login(userName, password);
+					
+		}else {
+			
+			return "Please Don't leave UserName or Password";
+		}
+	}
 }
