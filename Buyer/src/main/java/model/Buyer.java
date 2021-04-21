@@ -269,7 +269,7 @@ public class Buyer {
 			return output;
 		}	
 
-		//Delete Buyer-----------------------------------------------------------------------------------
+		//Delete Buyer details-----------------------------------------------------------------------------------
 		public String deleteBuyer(String buyerID)
 		{
 			

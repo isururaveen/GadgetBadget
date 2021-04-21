@@ -116,4 +116,18 @@ public class BuyerService {
 		String obj = buyer.UpdateBuyer(buyerID, firstName, lastName, address, email, phoneNo, userName, password);
 		return obj;
 	}
+
+	//Delete Buyer----------------------------------------------------
+	@DELETE
+	@Path("/delete")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String DeleteBuyer(String buyerData)
+	{
+		Document doc = Jsoup.parse(buyerData,"",Parser.xmlParser());
+		
+		String buyerID = doc.select("buyerID").text();
+		String output = buyer.deleteBuyer(buyerID);
+		return output;
+	}
 }
