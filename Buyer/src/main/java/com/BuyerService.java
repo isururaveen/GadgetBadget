@@ -116,4 +116,39 @@ public class BuyerService {
 		String obj = buyer.UpdateBuyer(buyerID, firstName, lastName, address, email, phoneNo, userName, password);
 		return obj;
 	}
+
+	//Delete Buyer-----------------------------------------------------------------------------------
+	public String deleteBuyer(String buyerID)
+	{
+			
+		String output ="";
+			
+		try
+		{
+			Connection con = connect();
+			if (con == null)
+			{
+				 return "Unable to Conenct to the database for Deleting."; 
+			}
+			
+			//Create a Prepared Statement
+			String sqlQuery = "DELETE FROM `buyers` WHERE buyerID=?";
+				
+			PreparedStatement preparedStatement = con.prepareStatement(sqlQuery);
+			preparedStatement.setInt(1, Integer.parseInt(buyerID));
+				
+			preparedStatement.executeUpdate();
+			con.close();
+				
+			output ="Delete Sucessfully";
+			}
+			catch(Exception ex)
+			{
+				output = "Unable to Delete BuyerID - " + buyerID+"";
+				System.err.println(ex.getMessage());
+			}
+			
+			return output;
+		}
+
 }
