@@ -1,6 +1,10 @@
 package model;
 
 import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Researcher {
 	//<------method to connect to the DB------> 
@@ -21,48 +25,68 @@ public class Researcher {
 				
 			return con; 
 	}
+	
 
 	//<-----Creating insert part----->
-	public String insertResearcher(String fName, String lName, String address, String email, String phone, String uName, String pWord) 
+	public String insertResearcher(String FirstName, String LastName, String Address, String Email, String Phone, String UserName, String Password) 
 	{
-			String output = "";
+		
+		String output ="";
+		
+		try {
+				Connection con = connect();
+				
+				if(con == null)
+				{
+					return "Error while connecting to the database for inserting.";
+				}
 			
-			try 
-			{
-					Connection con = connect();
-					if (con == null) 
-					{return "Error while connecting to the database for inserting."; }
-
-					// create a prepared statement 
-					String query = " insert into researchers (`ResearcherID`,`FirstName`,`LastName`,`Address`,`Email`,`Phone`,`UserName`,`Password`)" + " values (?, ?, ?, ?, ?, ?, ?, ?)";
-					
+				//Create a Prepared Statement
+				String query = "insert into researchers(`ResearcherID`,`FirstName`,`LastName`,`Address`,`Email`,`Phone`,`UserName`,`Password`)" + " values (?, ?, ?, ?, ?, ?, ?, ?)";
+			
+				//Prepared statement to retrieve all userNames
+				String query1 = new String("select * from researchers where UserName=?");
+		
+				
+				PreparedStatement preparedStatement = con.prepareStatement(query1);
+				preparedStatement.setString(1, UserName);
+			
+				ResultSet rs = preparedStatement.executeQuery();
+			
+				if(rs.next())
+				{
+					return "Sorry there is already a registered researcher with this username?";
+				}
+				else 
+				{
 					PreparedStatement preparedStmt = con.prepareStatement(query);
-					
-					// binding values 
+				
+					//binding Values
 					preparedStmt.setInt(1, 0); 
-					preparedStmt.setString(2, fName); 
-					preparedStmt.setString(3, lName);
-					preparedStmt.setString(4, address);
-					preparedStmt.setString(5, email);
-					preparedStmt.setString(6, phone);
-					preparedStmt.setString(7, uName);
-					preparedStmt.setString(8, pWord); 
-					
-					// execute the statement 
-					preparedStmt.execute(); 
+					preparedStmt.setString(2,FirstName );
+					preparedStmt.setString(3,LastName );
+					preparedStmt.setString(4, Address);
+					preparedStmt.setString(5, Email);
+					preparedStmt.setString(6, Phone);
+					preparedStmt.setString(7, UserName);
+					preparedStmt.setString(8, Password);
+				
+					//execute the statement
+					preparedStmt.execute();
 					con.close();
-					
-					output = "Researcher inserted successfully!";
-			} 
-			catch (Exception e) 
-			{
-					output = "Error while inserting the researcher."; 
-					System.err.println(e.getMessage());
-			} 
+				
+					output= "Registered successfully!";
+				}
 			
+			}	
+			catch(Exception e) 
+			{
+				output= "Error while registering the researcher!";
+				System.err.println(e.getMessage());
+			}
 			return output;
+	}
 	
-		}
 	
 		//<-----Creating read part----->
 		public String readResearchers() 
@@ -74,7 +98,9 @@ public class Researcher {
 						Connection con = connect();
 		
 						if (con == null) 
-						{return "Error while connecting to the database for reading."; }
+						{
+							return "Error while connecting to the database for reading."; 
+						}
 		
 						// Prepare the html table to be displayed 
 						output = "<table border='1'><tr><th>First Name</th><th>Last Name</th>" + 
@@ -134,7 +160,9 @@ public class Researcher {
 					Connection con = connect();
 			
 					if (con == null) 
-					{return "Error while connecting to the database for updating."; }
+					{
+						return "Error while connecting to the database for updating."; 
+					}
 			
 					// create a prepared statement 
 					String query = "UPDATE researchers SET FirstName=?,LastName=?,Address=?,Email=?,Phone=?,UserName=?,Password=? WHERE ResearcherID=?";
@@ -155,14 +183,13 @@ public class Researcher {
 					preparedStmt.execute(); 
 					con.close();
 					
-					output = "Researcher details updated successfully!";
+					output = "Updated successfully!";
 			} 
 			catch (Exception e) 
 			{
 					output = "Error while updating the researcher."; 
 					System.err.println(e.getMessage());
 			} 
-			
 			return output;
 			
 		}
@@ -179,7 +206,9 @@ public class Researcher {
 					
 			
 					if (con == null) 
-					{return "Error while connecting to the database for deleting."; }
+					{
+						return "Error while connecting to the database for deleting."; 
+					}
 					
 					// create a prepared statement 
 					String query = "delete from researchers where ResearcherID=?"; 
@@ -192,7 +221,7 @@ public class Researcher {
 					preparedStmt.execute(); 
 					con.close();
 					
-					output = "Researcher deleted successfully!";
+					output = "Deleted successfully!";
 				} 
 				catch (Exception e) 
 				{

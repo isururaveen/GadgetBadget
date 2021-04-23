@@ -27,24 +27,51 @@ public class ResearcherService {
 	{
 		return researcherObj.readResearchers();
 	}
+	
+	
 
 	//<-----Creating the insert researcher Operation----->
 	@POST 
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
 	@Produces(MediaType.TEXT_PLAIN) 
-	public String insertResearcher(@FormParam("FirstName") String FirstName, 
-							 @FormParam("LastName") String LastName, 
-							 @FormParam("Address") String Address, 
-							 @FormParam("Email") String Email,
-							 @FormParam("Phone") String Phone, 
-							 @FormParam("UserName") String UserName, 
-							 @FormParam("Password") String Password)
+	public String insertResearcher(@FormParam("FirstName") String FirstName,
+			@FormParam("LastName") String LastName,
+			@FormParam("Address") String Address, 
+			@FormParam("Email") String Email, 
+			@FormParam("Phone") String Phone, 
+			@FormParam("UserName") String UserName, 
+			@FormParam("Password")String Password)
 	{
-		String output = researcherObj.insertResearcher(FirstName, LastName, Address, Email, Phone, UserName, Password); 
 		
-		return output;
+		if(FirstName.length() == 0 || LastName.length() == 0 || Address.length() == 0 || Email.length() == 0 || Phone.length() == 0 || UserName.length() == 0 || Password.length() == 0)
+		{
+			return "It is essential that you fill in all the fields. please try again!";
+		}
+		else 
+		{
+			if(Password.length()<4)
+			{
+				return "Password should have more than 4 digits!"; 
+			}
+			else 
+			{
+				if(Phone.length()<10)
+				{
+					return "Please provide a valid phone number!";
+				}
+				else
+				{
+					String output = researcherObj.insertResearcher(FirstName, LastName, Address, Email, Phone, UserName, Password);
+					
+					return output;
+				}
+			}
+		}
 	}
+	
+	
+	
 	
 	//<-----Creating the update researcher Operation----->
 	@PUT 
@@ -70,6 +97,8 @@ public class ResearcherService {
 		
 		return output;
 	}
+	
+	
 	
 	//<-----Creating the delete researcher Operation----->
 	@DELETE 
