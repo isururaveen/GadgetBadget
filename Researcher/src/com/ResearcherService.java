@@ -28,8 +28,6 @@ public class ResearcherService {
 		return researcherObj.readResearchers();
 	}
 	
-	
-
 	//<-----Creating the insert researcher Operation----->
 	@POST 
 	@Path("/") 
@@ -42,8 +40,7 @@ public class ResearcherService {
 			@FormParam("Phone") String Phone, 
 			@FormParam("UserName") String UserName, 
 			@FormParam("Password")String Password)
-	{
-		
+	{	
 		if(FirstName.length() == 0 || LastName.length() == 0 || Address.length() == 0 || Email.length() == 0 || Phone.length() == 0 || UserName.length() == 0 || Password.length() == 0)
 		{
 			return "It is essential that you fill in all the fields. please try again!";
@@ -63,15 +60,11 @@ public class ResearcherService {
 				else
 				{
 					String output = researcherObj.insertResearcher(FirstName, LastName, Address, Email, Phone, UserName, Password);
-					
 					return output;
 				}
 			}
 		}
 	}
-	
-	
-	
 	
 	//<-----Creating the update researcher Operation----->
 	@PUT 
@@ -94,11 +87,8 @@ public class ResearcherService {
 		String Password = researcherObje.get("Password").getAsString();
 		
 		String output = researcherObj.updateResearcher(ResearcherID, FirstName, LastName, Address, Email, Phone, UserName, Password); 
-		
 		return output;
 	}
-	
-	
 	
 	//<-----Creating the delete researcher Operation----->
 	@DELETE 
@@ -113,11 +103,8 @@ public class ResearcherService {
 		//Read the value from the element <ResearcherID> 
 		String ResearcherID = doc.select("ResearcherID").text();
 		String output = researcherObj.deleteResearcher(ResearcherID); 
-		
 		return output;
 	}
-	
-	
 }
 
 

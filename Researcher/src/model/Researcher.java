@@ -21,16 +21,14 @@ public class Researcher {
 			catch (Exception e) 
 			{
 				e.printStackTrace();
-			}
-				
+			}	
 			return con; 
 	}
 	
-
+	
 	//<-----Creating insert part----->
 	public String insertResearcher(String FirstName, String LastName, String Address, String Email, String Phone, String UserName, String Password) 
 	{
-		
 		String output ="";
 		
 		try {
@@ -46,7 +44,6 @@ public class Researcher {
 			
 				//Prepared statement to retrieve all userNames
 				String query1 = new String("select * from researchers where UserName=?");
-		
 				
 				PreparedStatement preparedStatement = con.prepareStatement(query1);
 				preparedStatement.setString(1, UserName);
@@ -77,7 +74,6 @@ public class Researcher {
 				
 					output= "Registered successfully!";
 				}
-			
 			}	
 			catch(Exception e) 
 			{
@@ -133,7 +129,6 @@ public class Researcher {
 								output += "<td>" + Phone + "</td>";
 								output += "<td>" + UserName + "</td>";
 								output += "<td>" + Password + "</td>";
-								
 						 } 
 						 
 						 con.close();
@@ -146,9 +141,9 @@ public class Researcher {
 						output = "Error while reading the researchers."; 
 						System.err.println(e.getMessage());
 				} 
-				
 				return output;
 		}
+		
 		
 		//<-----Creating update part----->
 		public String updateResearcher(String RID, String fName, String lName, String address, String email, String phone, String uName, String pWord)
@@ -191,10 +186,8 @@ public class Researcher {
 					System.err.println(e.getMessage());
 			} 
 			return output;
-			
 		}
 
-		
 		
 		//<-----Creating delete part----->
 		public String deleteResearcher(String ResearcherID)
@@ -202,9 +195,8 @@ public class Researcher {
 			String output = "";
 			
 				try {
-					Connection con = connect();
+						Connection con = connect();
 					
-			
 					if (con == null) 
 					{
 						return "Error while connecting to the database for deleting."; 
@@ -228,8 +220,6 @@ public class Researcher {
 					output = "Error while deleting the researcher."; 
 					System.err.println(e.getMessage());
 				} 
-				
 				return output;
-		}
-			
+		}		
 }	
