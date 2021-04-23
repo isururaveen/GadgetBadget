@@ -25,6 +25,7 @@ public class ProductService {
 	 }  
 	
 	//create the insert product
+	
 @POST
 @Path("/") 
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED) 

@@ -24,10 +24,7 @@ public class Product
 			return con;
 	}
 	
-	
-	
-	
-	//insert part
+		//insert part
 	public String insertProduct(String name , String category, String desc, String price)
 	{
 			String output = "";
@@ -85,8 +82,6 @@ public class Product
 			}
 			return output;
 	}
-	
-	
 	
 	//read part
 	public String readProduct()
