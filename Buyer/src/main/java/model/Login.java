@@ -2,6 +2,8 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * @author IsuruRaveen
@@ -85,7 +87,7 @@ public class Login {
 					}
 					else 
 					{
-						return "Invalid Login!";
+						return "Invalid Logins";
 					}
 				}
 			}
@@ -94,7 +96,8 @@ public class Login {
 		}
 		return null;
 	}
-
+	
+	
 	//ForgetPassword
 	public String forgotPassword(String userName, String password)
 	{
@@ -170,7 +173,7 @@ public class Login {
 			}
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			// TODO: handle exception
 		}
 		
 		return null;
