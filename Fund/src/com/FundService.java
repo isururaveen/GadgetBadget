@@ -46,10 +46,8 @@ public class FundService {
 		else
 		{
 			String output = fundobj.insertFund(FundRecipient, CompanyName, TimeDuration, Purpose, DonationAmount);
-				
 			return output;
 		}
-	
 	}
 
 	
@@ -72,7 +70,6 @@ public class FundService {
 		String DonationAmount = fundObje.get("DonationAmount").getAsString();
 		
 		String output = fundobj.updateFund(FundID, FundRecipient, CompanyName, TimeDuration, Purpose, DonationAmount); 
-		
 		return output;
 	}
 	
@@ -89,7 +86,6 @@ public class FundService {
 		//Read the value from the element <FundID> 
 		String FundID = doc.select("FundID").text();
 		String output = fundobj.deleteFund(FundID); 
-		
 		return output;
 	}
 	

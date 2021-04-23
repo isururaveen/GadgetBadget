@@ -22,13 +22,11 @@ public class Fund {
 				catch (Exception e) 
 				{
 					e.printStackTrace();
-				}
-					
+				}	
 				return con; 
 		}
 		
 		
-
 		//<-----Creating insert part----->
 		public String insertFund(String FundRecipient, String CompanyName, String TimeDuration, String Purpose, String DonationAmount) 
 		{
@@ -78,15 +76,12 @@ public class Fund {
 				} 
 				catch (Exception e) 
 				{
-					
 					output = "Error while inserting the fund."; 
 					System.err.println(e.getMessage());
 				} 
-				
 				return output;
 		
 		}
-		
 		
 		
 		//<-------Creating read part--------->
@@ -141,7 +136,6 @@ public class Fund {
 						output = "Error while reading the funds."; 
 						System.err.println(e.getMessage());
 				} 
-				
 				return output;
 		}
 		
@@ -184,7 +178,6 @@ public class Fund {
 					output = "Error while updating the fund."; 
 					System.err.println(e.getMessage());
 			} 
-			
 			return output;
 			
 		}	
@@ -222,8 +215,6 @@ public class Fund {
 					output = "Error while deleting the fund."; 
 					System.err.println(e.getMessage());
 				} 
-				
 				return output;
-		}
-			
+		}	
 }
