@@ -22,7 +22,7 @@ public class ProductService {
 	public String readProducts() 
 	 { 
 	 return  productObj.readProduct(); 
-	 } 
+	 }  
 	
 	//create the insert product
 @POST
@@ -34,7 +34,14 @@ public String insertProduct(@FormParam("productName") String productName,
  @FormParam("proDesc") String proDesc, 
  @FormParam("proPrice") String proPrice) 
 { 
- String output = productObj.insertProduct(productName, proCategory, proDesc, proPrice); 
+	String output="";
+	
+	if(productName.length() == 0 || proCategory.length() == 0 || proDesc.length() == 0 || proPrice.length() == 0)
+	{
+		return "You Cannot keep Empty Fields..! Please Try Again..!";
+	}
+	else
+  output = productObj.insertProduct(productName, proCategory, proDesc, proPrice); 
 return output; 
 }
 //add method

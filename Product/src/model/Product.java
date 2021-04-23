@@ -1,6 +1,9 @@
 package model;
 
 import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Product
 {		//A common method to connect to the DB
@@ -21,6 +24,9 @@ public class Product
 			return con;
 	}
 	
+	
+	
+	
 	//insert part
 	public String insertProduct(String name , String category, String desc, String price)
 	{
@@ -30,11 +36,31 @@ public class Product
 			{
 					Connection con = connect();
 					if (con == null)
-					{return "Error while connecting to the database for inserting."; }
+					{
+						return "Error while connecting to the database for inserting."; 
+					}
 					
 					// create a prepared statement
 					String query = " insert into product (`productID`,`productName`,`proCategory`,`proDesc`,`proPrice`)"
 							+ " values (?, ?, ?, ?, ?)";
+					
+					
+					
+					//Create a Prepared Statement to Retrieve all productNames
+					String query2 = new String("SELECT * FROM product WHERE productName=?");
+					
+					PreparedStatement preparedStatement = con.prepareStatement(query2);
+					preparedStatement.setString(1, name);
+					
+					ResultSet rs = preparedStatement.executeQuery();
+					
+
+					if(rs.next())
+					{
+						return "Sorry there is already inserted a product with Same Name";
+					}
+					else 
+					{
 					
 					PreparedStatement preparedStmt = con.prepareStatement(query);
 					
@@ -49,15 +75,18 @@ public class Product
 					preparedStmt.execute();
 					con.close();
 					
-					output = "Inserted successfully";
-			}
-			catch (Exception e)
-			{
+					output = "Product Inserted Successfully";
+					}
+			
+			}catch (Exception e)
+			{		
 					output = "Error while inserting the product.";
 					System.err.println(e.getMessage());
 			}
 			return output;
 	}
+	
+	
 	
 	//read part
 	public String readProduct()
@@ -138,7 +167,7 @@ public class Product
 				preparedStmt.execute();
 				con.close();
 				
-				output = "Updated successfully";
+				output = "Product Updated Successfully";
 		}
 		catch (Exception e)
 		{
@@ -170,7 +199,7 @@ public class Product
 				preparedStmt.execute();
 				con.close();
 				
-				output = "Deleted successfully";
+				output = "Product Deleted Successfully";
 		}
 		catch (Exception e)
 		{
