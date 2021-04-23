@@ -39,10 +39,19 @@ public class FundService {
 							 @FormParam("Purpose") String Purpose,
 							 @FormParam("DonationAmount") String DonationAmount)
 	{
-		String output = fundobj.insertFund(FundRecipient, CompanyName, TimeDuration, Purpose, DonationAmount); 
-		
-		return output;
+		if(FundRecipient.length() == 0 || CompanyName.length() == 0 || TimeDuration.length() == 0 || Purpose.length() == 0 || DonationAmount.length() == 0)
+		{
+			return "It is essential that you fill in all the fields. Please try again!";
+		}
+		else
+		{
+			String output = fundobj.insertFund(FundRecipient, CompanyName, TimeDuration, Purpose, DonationAmount);
+				
+			return output;
+		}
+	
 	}
+
 	
 	//<-------Creating the Update Funds Operation------->
 	@PUT 

@@ -1,6 +1,10 @@
 package model;
 
 import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Fund {
 
@@ -23,9 +27,10 @@ public class Fund {
 				return con; 
 		}
 		
+		
 
 		//<-----Creating insert part----->
-		public String insertFund(String fRecipient, String comName, String timeDuration, String purpose, String donaAmount) 
+		public String insertFund(String FundRecipient, String CompanyName, String TimeDuration, String Purpose, String DonationAmount) 
 		{
 				String output = "";
 				
@@ -33,36 +38,55 @@ public class Fund {
 				{
 						Connection con = connect();
 						if (con == null) 
-						{return "Error while connecting to the database for inserting."; }
+						{
+							return "Error while connecting to the database for inserting."; 
+						}
 
 						// create a prepared statement 
 						String query = " insert into funds (`FundID`,`FundRecipient`,`CompanyName`,`TimeDuration`,`Purpose`,`DonationAmount`)" + " values (?, ?, ?, ?, ?, ?)";
 						
-						PreparedStatement preparedStmt = con.prepareStatement(query);
+						//Prepared statement to retrieve all Fund Recipient Names
+						String query1 = new String("select * from funds where FundRecipient=?");
 						
-						// binding values 
-						preparedStmt.setInt(1, 0); 
-						preparedStmt.setString(2, fRecipient); 
-						preparedStmt.setString(3, comName);
-						preparedStmt.setString(4, timeDuration);
-						preparedStmt.setString(5, purpose);
-						preparedStmt.setDouble(6, Double.parseDouble(donaAmount)); 
+						PreparedStatement preparedStatement = con.prepareStatement(query1);
+						preparedStatement.setString(1, FundRecipient);
 						
-						// execute the statement 
-						preparedStmt.execute(); 
-						con.close();
+						ResultSet rs = preparedStatement.executeQuery();
 						
-						output = "Fund inserted successfully!";
+						if(rs.next())
+						{
+							return "Sorry there is already a fund recipient with this name?";
+						}
+						else 
+						{
+							PreparedStatement preparedStmt = con.prepareStatement(query);
+						
+							// binding values 
+							preparedStmt.setInt(1, 0); 
+							preparedStmt.setString(2, FundRecipient); 
+							preparedStmt.setString(3, CompanyName);
+							preparedStmt.setString(4, TimeDuration);
+							preparedStmt.setString(5, Purpose);
+							preparedStmt.setDouble(6, Double.parseDouble(DonationAmount)); 
+						
+							// execute the statement 
+							preparedStmt.execute(); 
+							con.close();
+						
+							output = "Fund inserted successfully!";
+						}	
 				} 
 				catch (Exception e) 
 				{
-						output = "Error while inserting the fund."; 
-						System.err.println(e.getMessage());
+					
+					output = "Error while inserting the fund."; 
+					System.err.println(e.getMessage());
 				} 
 				
 				return output;
 		
 		}
+		
 		
 		
 		//<-------Creating read part--------->
@@ -75,7 +99,9 @@ public class Fund {
 						Connection con = connect();
 		
 						if (con == null) 
-						{return "Error while connecting to the database for reading."; }
+						{
+							return "Error while connecting to the database for reading."; 
+						}
 		
 						// Prepare the html table to be displayed 
 						output = "<table border='1'><tr><th>Fund Recipient Name</th><th>Company Name</th>" + 
@@ -130,7 +156,9 @@ public class Fund {
 					Connection con = connect();
 			
 					if (con == null) 
-					{return "Error while connecting to the database for updating."; }
+					{
+						return "Error while connecting to the database for updating."; 
+					}
 			
 					// create a prepared statement 
 					String query = "UPDATE funds SET FundRecipient=?,CompanyName=?,TimeDuration=?,Purpose=?,DonationAmount=? WHERE FundID =?";
@@ -172,7 +200,9 @@ public class Fund {
 					
 			
 					if (con == null) 
-					{return "Error while connecting to the database for deleting."; }
+					{
+						return "Error while connecting to the database for deleting."; 
+					}
 					
 					// create a prepared statement 
 					String query = "delete from funds where FundID=?"; 
